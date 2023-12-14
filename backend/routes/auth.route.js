@@ -49,6 +49,7 @@ router.post('/login', validate(schema), async(req, res) => {
                     refreshTokens.push(refreshToken);
                     res.json(
                         {
+                            user: user,
                             accessToken: accessToken,
                             refreshToken: refreshToken
                         }
@@ -62,14 +63,5 @@ router.post('/login', validate(schema), async(req, res) => {
     }
 });
 
-// router.post('/token', (req, res) => {
-//     const accessToken = req.headers['authorization'];
-//     if(!accessToken) return res.status(404).json({message: 'Accesstoken not found'});
-
-//     if(!refreshTokens.includes(accessToken)) 
-//         return res.status(404).json({message: 'Accesstoken not found'});
-    
-    
-// });
 
 export default router;
