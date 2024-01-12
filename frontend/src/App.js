@@ -1,7 +1,7 @@
 import "./App.css";
 import Home from "./components/Home.js";
-import Login from "./components/Auth/Login.js";
-import Register from "./components/Auth/Register.js";
+import Login from "./components/auth/Login.js";
+import Register from "./components/auth/Register.js";
 import About from "./components/About.js";
 import Nav from "./components/Nav.js";
 import { Routes, Route } from "react-router-dom";
