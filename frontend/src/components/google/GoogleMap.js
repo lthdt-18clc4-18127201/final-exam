@@ -115,35 +115,47 @@ const GoogleMap = ({ places }) => {
           )}
         </Map>
       </div>
-      <div className="">
-        {billboards.map((billboard, index) => (
-          <div
-            key={index}
-            style={{
-              position: "absolute",
-              right: 0,
-              width: "30%",
-              margin: "10px",
-              padding: "10px",
-              border: "1px solid black",
-              backgroundColor: "white",
-              // top: `${index * 40}%`, // Add this line
-            }}
-          >
-            <h3 style={{ fontWeight: "bold" }}>{billboard.title}</h3>
-            <p>
-              {selectedPlace.address}, Phường: {selectedPlace.ward}, Quận:{" "}
-              {selectedPlace.district}
-            </p>
-            <p>
-              Kích thước: {billboard.width}m x {billboard.height}m
-            </p>
-            <p>Số lượng: {billboard.quantity} trụ/bảng</p>
-            <p>Hình thức: {selectedPlace.advertisingForm}</p>
-            <p>Phân loại: {selectedPlace.locationType}</p>
-          </div>
-        ))}
-      </div>
+      {billboards.length > 0 && (
+        <div
+          className="bg-white"
+          style={{
+            width: "30vw",
+            background: "white",
+            position: "absolute",
+            right: "0",
+            height: "100%",
+            marginTop: "100px",
+          }}
+        >
+          {billboards.map((billboard, index) => (
+            <div
+              key={index}
+              style={{
+                // position: "absolute",
+                right: 0,
+                // width: "30%",
+                margin: "10px",
+                padding: "10px",
+                border: "1px solid black",
+                backgroundColor: "white",
+                // top: `${index * 40}%`, // Add this line
+              }}
+            >
+              <h3 style={{ fontWeight: "bold" }}>{billboard.title}</h3>
+              <p>
+                {selectedPlace.address}, Phường: {selectedPlace.ward}, Quận:{" "}
+                {selectedPlace.district}
+              </p>
+              <p>
+                Kích thước: {billboard.width}m x {billboard.height}m
+              </p>
+              <p>Số lượng: {billboard.quantity} trụ/bảng</p>
+              <p>Hình thức: {selectedPlace.advertisingForm}</p>
+              <p>Phân loại: {selectedPlace.locationType}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </APIProvider>
   );
 };
