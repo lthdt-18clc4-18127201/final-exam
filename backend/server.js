@@ -8,6 +8,7 @@ import placeRouter from "./routes/place.route.js";
 import authMdw from "./middlewares/auth.mdw.js";
 import cors from "cors";
 import connection from "./utils/db.js";
+import logger from './middlewares/logger.mdw.js';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -21,6 +22,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+app.use(logger);
 app.use("/api/places", placeRouter);
 app.use("/api/auth", authRouter);
 app.use("/", authMdw, siteRouter);

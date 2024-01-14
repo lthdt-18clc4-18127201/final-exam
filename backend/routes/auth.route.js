@@ -55,7 +55,7 @@ router.post('/login', validate(schema), async(req, res) => {
                         }
                     );
                 } else {
-                    res.json({message: 'You entered wrong password'})
+                    res.status(404).json({message: 'You entered wrong password'})
                 }
             })
     } catch (error) {
