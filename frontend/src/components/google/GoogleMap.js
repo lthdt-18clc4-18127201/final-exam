@@ -8,9 +8,12 @@ import {
 } from "@vis.gl/react-google-maps";
 import axios from "../../state/axios-instance.js";
 
+import { FcInfo } from "react-icons/fc";
+
 const GoogleMap = ({ places }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
-  const [billboards, setBillboards] = useState([]); // [
+  const [billboards, setBillboards] = useState([]);
+  const [selectedBillboard, setSelectedBillboard] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState({
     lat: 0,
     lng: 0,
@@ -102,7 +105,13 @@ const GoogleMap = ({ places }) => {
           ))}
 
           {selectedPlace && (
-            <InfoWindow position={selectedPlace}>
+            <InfoWindow
+              position={selectedPlace}
+              onCloseClick={() => {
+                setBillboards([]);
+                setSelectedPlace(null);
+              }}
+            >
               <div>
                 <h4>{selectedPlace.advertisingForm}</h4>
                 <p>{selectedPlace.locationType}</p>
@@ -123,22 +132,22 @@ const GoogleMap = ({ places }) => {
             background: "white",
             position: "absolute",
             right: "0",
-            height: "100%",
+            top: "0",
             marginTop: "100px",
+            maxHeight: "85vh",
+            overflowY: "scroll",
+            justifyContent: "space-around",
           }}
         >
           {billboards.map((billboard, index) => (
             <div
               key={index}
               style={{
-                // position: "absolute",
                 right: 0,
-                // width: "30%",
                 margin: "10px",
                 padding: "10px",
                 border: "1px solid black",
                 backgroundColor: "white",
-                // top: `${index * 40}%`, // Add this line
               }}
             >
               <h3 style={{ fontWeight: "bold" }}>{billboard.title}</h3>
@@ -152,6 +161,19 @@ const GoogleMap = ({ places }) => {
               <p>Số lượng: {billboard.quantity} trụ/bảng</p>
               <p>Hình thức: {selectedPlace.advertisingForm}</p>
               <p>Phân loại: {selectedPlace.locationType}</p>
+              <div className="d-flex align-items-center justify-content-around">
+                <FcInfo
+                  style={{ fontSize: "30px", cursor: "pointer" }}
+                  onClick={() => {
+                    console.log("Clicked", billboard._id);
+                    setSelectedBillboard(billboard);
+                  }}
+                />
+
+                <button type="button" class="btn btn-danger">
+                  BÁO CÁO VI PHẠM
+                </button>
+              </div>
             </div>
           ))}
         </div>
