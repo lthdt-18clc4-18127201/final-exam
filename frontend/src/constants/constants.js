@@ -1,0 +1,1 @@
+export const REACT_APP_GG_APIKEY = "AIzaSyB2v3C9Q7UleBLV0tS0Nw0FM2dMYWmxtHQ";
