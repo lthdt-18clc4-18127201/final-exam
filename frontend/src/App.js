@@ -8,7 +8,8 @@ import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { Container } from "react-bootstrap";
+// import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 function App() {
   const user = useSelector((state) => state.user.user);
@@ -16,7 +17,8 @@ function App() {
   return (
     <div className="App">
       <Nav />
-      <main className="container">
+      <Container>
+        {/* <main className="container"> */}
         <Routes>
           {/* <Route exact path="/" element={!user ? <Login /> : <Home />} /> */}
           <Route exact path="/" element={<Home />} />
@@ -24,7 +26,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/about" element={<About />} />
         </Routes>
-      </main>
+        {/* </main> */}
+      </Container>
     </div>
   );
 }

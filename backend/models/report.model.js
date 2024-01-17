@@ -11,6 +11,7 @@ const reportSchema = new mongoose.Schema({
     required: false,
     ref: "Billboard",
   },
+  reportType: String,
   userName: String,
   userPhone: String,
   email: String,
@@ -20,6 +21,7 @@ const reportSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  updatedAt: Date,
   images: [String],
 });
 export default mongoose.model("Report", reportSchema);

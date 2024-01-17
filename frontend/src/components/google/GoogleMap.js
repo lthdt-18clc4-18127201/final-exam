@@ -9,6 +9,48 @@ import {
 import axios from "../../state/axios-instance.js";
 
 import { FcInfo } from "react-icons/fc";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+// import Form from "react-bootstrap/Form";
+
+import ReportModal from "../ReportForm/ReportForm.js";
+
+function BillboarDetailModal({ selectedBillboard, ...props }) {
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Billboard Detail
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {selectedBillboard && (
+          <div>
+            <h4>Thời gian hợp đồng</h4>
+            <p>
+              {new Intl.DateTimeFormat("en-GB").format(
+                new Date(selectedBillboard.expiredDate)
+              )}
+            </p>
+            <h4>Hình ảnh</h4>
+            <img
+              src={`http://localhost:8080/api/images/${selectedBillboard.imageUrl}`}
+              className="img-fluid"
+            />
+          </div>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
 
 const GoogleMap = ({ places }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
@@ -18,6 +60,8 @@ const GoogleMap = ({ places }) => {
     lat: 0,
     lng: 0,
   });
+  const [modalBillboard, setModalBillboard] = useState(false);
+  const [modalReport, setModalReport] = useState(false);
 
   useEffect(() => {
     const getCurrentPosition = async () => {
@@ -49,6 +93,44 @@ const GoogleMap = ({ places }) => {
       console.error("Error fetching billboard data:", error);
     }
   };
+
+  // Modal for billboard detail
+
+  // function ReportModal(props) {
+  //   return (
+  //     <Modal
+  //       {...props}
+  //       size="lg"
+  //       aria-labelledby="contained-modal-title-vcenter"
+  //       centered
+  //     >
+  //       <Modal.Header closeButton>
+  //         <Modal.Title id="contained-modal-title-vcenter">
+  //           Report Form
+  //         </Modal.Title>
+  //       </Modal.Header>
+  //       <Modal.Body>
+  //         {selectedBillboard && (
+  //           <div>
+  //             <h4>Hình thức báo cáo</h4>
+  //             <Form>
+  //               <Form.Select aria-label="Default select example">
+  //                 <option>Chọn hình thức</option>
+  //                 <option value="Tố giác sai phạm">Tố giác sai phạm</option>
+  //                 <option value="Đăng ký nội dung">Đăng ký nội dung</option>
+  //                 <option value="Đóng góp ý kiến">Đóng góp ý kiến</option>
+  //                 <option value="Giải đáp thắc mắc">Giải đáp thắc mắc</option>
+  //               </Form.Select>
+  //             </Form>
+  //           </div>
+  //         )}
+  //       </Modal.Body>
+  //       <Modal.Footer>
+  //         <Button onClick={props.onHide}>Close</Button>
+  //       </Modal.Footer>
+  //     </Modal>
+  //   );
+  // }
 
   return (
     <APIProvider apiKey={REACT_APP_GG_APIKEY}>
@@ -165,12 +247,19 @@ const GoogleMap = ({ places }) => {
                 <FcInfo
                   style={{ fontSize: "30px", cursor: "pointer" }}
                   onClick={() => {
-                    console.log("Clicked", billboard._id);
                     setSelectedBillboard(billboard);
+                    setModalBillboard(true);
                   }}
                 />
 
-                <button type="button" class="btn btn-danger">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  onClick={() => {
+                    setSelectedBillboard(billboard);
+                    setModalReport(true);
+                  }}
+                >
                   BÁO CÁO VI PHẠM
                 </button>
               </div>
@@ -178,6 +267,16 @@ const GoogleMap = ({ places }) => {
           ))}
         </div>
       )}
+      <BillboarDetailModal
+        show={modalBillboard}
+        onHide={() => setModalBillboard(false)}
+        selectedBillboard={selectedBillboard}
+      />
+      <ReportModal
+        show={modalReport}
+        onHide={() => setModalReport(false)}
+        selectedBillboard={selectedBillboard}
+      />
     </APIProvider>
   );
 };
