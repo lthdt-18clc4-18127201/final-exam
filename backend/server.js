@@ -11,6 +11,7 @@ import cors from "cors";
 import connection from "./utils/db.js";
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import logger from "./middlewares/logger.mdw.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -46,6 +47,7 @@ app.use(
 
 app.use("/api/images", imageRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use(logger);
 app.use("/api/places", placeRouter);
 // app.use("/api/auth", authRouter);
 // app.use("/", authMdw, siteRouter);

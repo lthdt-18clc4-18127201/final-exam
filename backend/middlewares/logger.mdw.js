@@ -9,10 +9,12 @@ export default function(req, res, next) {
                     `Status: ${res.statusCode} - ${req.method}: ${req.originalUrl}: Enter wrong password`);
                     break
                 };
-                case '/api/auth/register': {logger.error(
+                case '/api/auth/register': {
+                    logger.error(
                     `Status: ${res.statusCode} - ${req.method}: ${req.originalUrl}: Register process has an occured`);
                     break
                 };
+                default: next();
             }
             
         } 
