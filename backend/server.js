@@ -5,6 +5,7 @@ import siteRouter from "./routes/site.route.js";
 // import authRouter from "./routes/auth.route.js";
 import placeRouter from "./routes/place.route.js";
 import imageRouter from "./routes/image.route.js";
+import reportRouter from "./routes/report.route.js";
 
 import authMdw from "./middlewares/auth.mdw.js";
 import cors from "cors";
@@ -49,6 +50,7 @@ app.use("/api/images", imageRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(logger);
 app.use("/api/places", placeRouter);
+app.use("/api/report", reportRouter);
 // app.use("/api/auth", authRouter);
 // app.use("/", authMdw, siteRouter);
 // app.use("/api/users", authMdw, userRouter);

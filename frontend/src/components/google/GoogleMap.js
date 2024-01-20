@@ -11,7 +11,6 @@ import axios from "../../state/axios-instance.js";
 import { FcInfo } from "react-icons/fc";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-// import Form from "react-bootstrap/Form";
 
 import ReportModal from "../ReportForm/ReportForm.js";
 
@@ -93,44 +92,6 @@ const GoogleMap = ({ places }) => {
       console.error("Error fetching billboard data:", error);
     }
   };
-
-  // Modal for billboard detail
-
-  // function ReportModal(props) {
-  //   return (
-  //     <Modal
-  //       {...props}
-  //       size="lg"
-  //       aria-labelledby="contained-modal-title-vcenter"
-  //       centered
-  //     >
-  //       <Modal.Header closeButton>
-  //         <Modal.Title id="contained-modal-title-vcenter">
-  //           Report Form
-  //         </Modal.Title>
-  //       </Modal.Header>
-  //       <Modal.Body>
-  //         {selectedBillboard && (
-  //           <div>
-  //             <h4>Hình thức báo cáo</h4>
-  //             <Form>
-  //               <Form.Select aria-label="Default select example">
-  //                 <option>Chọn hình thức</option>
-  //                 <option value="Tố giác sai phạm">Tố giác sai phạm</option>
-  //                 <option value="Đăng ký nội dung">Đăng ký nội dung</option>
-  //                 <option value="Đóng góp ý kiến">Đóng góp ý kiến</option>
-  //                 <option value="Giải đáp thắc mắc">Giải đáp thắc mắc</option>
-  //               </Form.Select>
-  //             </Form>
-  //           </div>
-  //         )}
-  //       </Modal.Body>
-  //       <Modal.Footer>
-  //         <Button onClick={props.onHide}>Close</Button>
-  //       </Modal.Footer>
-  //     </Modal>
-  //   );
-  // }
 
   return (
     <APIProvider apiKey={REACT_APP_GG_APIKEY}>

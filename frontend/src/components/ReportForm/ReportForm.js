@@ -5,6 +5,9 @@ import Button from "react-bootstrap/Button";
 import axios from "../../state/axios-instance.js";
 import { Editor } from "@tinymce/tinymce-react";
 import ImageUploader from "react-images-upload";
+import { toast } from "react-toastify";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useHistory } from "react-router-dom";
 
 const ReportModal = ({ selectedBillboard, ...props }) => {
   const [name, setName] = useState("");
@@ -13,6 +16,11 @@ const ReportModal = ({ selectedBillboard, ...props }) => {
   const [reportType, setReportType] = useState("");
   const [reportContent, setReportContent] = useState("");
   const [images, setImages] = useState([]);
+  const [captchaValue, setCaptchaValue] = useState(null);
+
+  useEffect(() => {
+    console.log(selectedBillboard);
+  }, [selectedBillboard]);
 
   const handleEditorChange = (content, editor) => {
     setReportContent(content);
@@ -30,25 +38,78 @@ const ReportModal = ({ selectedBillboard, ...props }) => {
     setImages(images.filter((_, i) => i !== index));
   };
 
+  const handleCaptchaChange = (value) => {
+    setCaptchaValue(value);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!captchaValue) {
+      toast.error("Please verify the CAPTCHA!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
+    if (!name || !email || !phone || !reportContent || images.length === 0) {
+      toast.error("Vui lòng điền đủ các phần!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
+    const imageUploadPromises = images.map((image) => {
+      const formData = new FormData();
+      formData.append("images", image);
+      return axios.post("/api/images/upload", formData);
+    });
+
+    const imageResponses = await Promise.all(imageUploadPromises);
+
+    const imageUrls = imageResponses.map((response) => response.data[0]);
 
     const report = {
       name,
       email,
       phone,
       reportContent,
-      images,
+      reportType,
+      images: imageUrls,
+      idPlace: selectedBillboard.idPlace,
+      idBillboard: selectedBillboard._id,
     };
 
-    console.log(report);
-
-    // try {
-    //   const response = await axios.post("/api/reports", report);
-    //   console.log(response.data);
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      const response = await axios.post("/api/report", report);
+      console.log(response);
+      toast.success("Gửi báo cáo thành công!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -165,6 +226,15 @@ const ReportModal = ({ selectedBillboard, ...props }) => {
                     </button>
                   </div>
                 ))}
+              </Form.Group>
+
+              {/* Captcha */}
+              <Form.Group controlId="formCaptcha">
+                <Form.Label>CAPTCHA</Form.Label>
+                <ReCAPTCHA
+                  sitekey="6LcjQlQpAAAAABxLS966QtVL8oJnOjWLxKjpoTyB"
+                  onChange={handleCaptchaChange}
+                />
               </Form.Group>
             </Form>
           </div>

@@ -39,7 +39,7 @@ const upload = multer({
 });
 
 // Set up the POST route
-router.post("/upload", upload.array("images", 2), (req, res, next) => {
+router.post("/upload", upload.array("images"), (req, res, next) => {
   const files = req.files;
   if (!files) {
     const error = new Error("Please choose files");
